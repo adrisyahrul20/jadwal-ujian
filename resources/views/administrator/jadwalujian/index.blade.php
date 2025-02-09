@@ -66,7 +66,7 @@
                 </div>
 
                 <div class="flex flex-col w-full mb-4">
-                    <label for="idkelas" class="block text-gray-700">Kelas Digunakan</label>
+                    <label for="idkelas" class="block text-gray-700">Kelas</label>
                     <select id="idkelas" name="idkelas" class="border shadow-sm rounded-md py-2 px-3">
                         <option value="">Pilih Kelas</option>
                         @foreach ($dataKelas as $data)
@@ -240,8 +240,11 @@
 
             function populateForm(data) {
                 $("#recordId").val(data.id);
-                $("#kdkls").val(data.kdkls);
-                $("#jmlbangku").val(data.jmlbangku);
+                $("#idmtpelajaran").val(data.idmtpelajaran);
+                $("#hari_ujian").val(data.hari_ujian);
+                $("#waktu_mulai").val(data.waktu_mulai);
+                $("#waktu_selesai").val(data.waktu_selesai);
+                $("#idkelas").val(data.idkelas);
                 $("#idguru").val(data.idguru);
             }
 

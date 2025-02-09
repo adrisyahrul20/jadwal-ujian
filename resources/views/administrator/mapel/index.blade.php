@@ -3,7 +3,7 @@
         <div class="flex flex-col md:flex-row text-center justify-between gap-4">
             <h1 class="text-xl md:text-2xl font-semibold">Mata Pelajaran</h1>
             <button class="btn btn-success bg-green-500 text-white rounded-lg px-4 py-2 mb-4" id="addNewDataButton">Tambah
-                Kelas</button>
+                Mata Pelajaran</button>
         </div>
         <table class="min-w-full bg-white divide-y divide-gray-200 border" id="dataTables">
             <thead class="bg-gray-50">
@@ -142,7 +142,7 @@
     <script>
         $(document).ready(function() {
             $('#addNewDataButton').click(function() {
-                $('#modalTitle').text('Tambah Data Kelas');
+                $('#modalTitle').text('Tambah Mata Pelajaran');
                 $('#dataModal').removeClass('hidden');
                 $("#method").val('POST');
                 $('#dataForm')[0].reset();
@@ -191,7 +191,7 @@
             $('table#dataTables tbody').on('click', 'td button', function(e) {
                 const action = $(this).attr("data-mode");
                 const data = $('#dataTables').DataTable().row($(this).parents('tr')).data();
-                $('#modalTitle').text('Ubah Data Kelas');
+                $('#modalTitle').text('Ubah Mata Pelajaran');
 
                 if (action === 'edit') {
                     populateForm(data);
@@ -206,8 +206,9 @@
 
             function populateForm(data) {
                 $("#recordId").val(data.id);
-                $("#kdkls").val(data.kdkls);
-                $("#jmlbangku").val(data.jmlbangku);
+                $("#kdmapel").val(data.kdmapel);
+                $("#nmmapel").val(data.nmmapel);
+                $("#keterangan").val(data.keterangan);
                 $("#idguru").val(data.idguru);
             }
 

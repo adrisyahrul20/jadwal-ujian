@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>Jadwal Ujian SMP N 2 Pulau Punjung</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -18,7 +18,7 @@
     @else
         <script src="https://cdn.tailwindcss.com"></script>
     @endif
-    
+
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css" rel="stylesheet"
         type="text/css" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
@@ -31,10 +31,12 @@
 
 <body class="font-sans text-gray-900 antialiased">
     <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900">
-        <div>
+        <div class="flex flex-col items-center justify-center">
             <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
+                <x-login-logo class="w-20 h-20 fill-current text-gray-500" />
             </a>
+            <h1 class="text-center dark:text-white text-xl lg:text-3xl font-bold mt-6">SMP N 2 Pulau
+                Punjung</h1>
         </div>
 
         <div

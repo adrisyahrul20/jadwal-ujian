@@ -8,13 +8,19 @@ use App\Http\Controllers\Admin\MapelController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Guest\LandingController;
+use App\Http\Controllers\PDFController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [LandingController::class, 'index'])->name('home-page');
+Route::get('/kelas', [LandingController::class, 'kelas'])->name('filter-kelas');
+Route::get('/guru', [LandingController::class, 'guru'])->name('filter-guru');
+Route::get('/export-pdf', [PDFController::class, 'exportPDF'])->name('export.pdf');
 
 Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::prefix('dashboard')->name('dashboard.')->controller(DashboardController::class)->group(function () {
         Route::get('/', 'index')->name('index');
+        Route::get('/kelas', 'kelas')->name('kelas');
+        Route::get('/guru', 'guru')->name('guru');
     });
 
     Route::prefix('jadwal')->name('jadwal.')->controller(JadwalUjianController::class)->group(function () {
