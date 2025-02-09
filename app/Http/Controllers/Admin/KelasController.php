@@ -5,41 +5,43 @@ namespace App\Http\Controllers\Admin;
 use App\Helper\ErrorHandler;
 use App\Helper\FormatResponse;
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Models\GuruModel;
+use App\Models\KelasModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use Yajra\DataTables\DataTables;
 
-class UserController extends Controller
+class KelasController extends Controller
 {
     protected $table;
+    protected $guru;
 
-    public function __construct(User $table)
+    public function __construct(KelasModel $table, GuruModel $gurus)
     {
         $this->table = $table;
+        $this->guru = $gurus;
     }
 
     public function index()
     {
-        return view('administrator.users.index');
+        $dataGuru = $this->guru->select('id','nama')->get();
+        return view('administrator.kelas.index')->with([
+            'dataGuru' => $dataGuru
+        ]);
     }
 
     public function datatable()
     {
         return DataTables::of($this->table->orderBy('created_at', 'desc')->select([
             'id',
-            'name',
-            'email',
-            'role',
+            'kdkls',
+            'jmlbangku',
+            'idguru',
         ]))
             ->addIndexColumn()
-            ->addColumn('roleCast', function ($row) {
-                $roles = [
-                    'admin' => 'Administrator',
-                    'guru' => 'Guru',
-                ];
-                return $roles[$row->role] ?? 'Error';
+            ->addColumn('namaGuru', function ($row) {
+                return $row->idGuru->nama ?? 'Guru Tidak Ada';
             })
             ->addColumn('action', function ($row) {
                 return '
@@ -52,7 +54,7 @@ class UserController extends Controller
                     </button>
                 </div>';
             })
-            ->rawColumns(['statusCast', 'action'])
+            ->rawColumns(['fotoCast', 'action'])
             ->make(true);
     }
 
@@ -60,10 +62,9 @@ class UserController extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
-                'name' => 'required|string|max:255',
-                'email' => 'required|string|email|max:255|unique:users,email',
-                'role' => 'required|in:admin,guru',
-                'password' => 'required',
+                'kdkls' => 'required|string|max:255|unique:kelas,kdkls',
+                'jmlbangku' => 'required|integer',
+                'idguru' => 'required',
             ]);
 
             if ($validator->fails()) {
@@ -71,13 +72,12 @@ class UserController extends Controller
             }
 
             $store = new $this->table;
-            $store->name = $request->name;
-            $store->email = $request->email;
-            $store->password = bcrypt($request->password);
-            $store->role = $request->role;
+            $store->kdkls = $request->kdkls;
+            $store->jmlbangku = $request->jmlbangku;
+            $store->idguru = $request->idguru;
             $store->save();
 
-            return FormatResponse::send(true, ['record' => $store, 'act' => 'store'], "Registrasi berhasil!", 200);
+            return FormatResponse::send(true, null, "Tambah data berhasil!", 200);
         } catch (\Throwable $th) {
             return ErrorHandler::record($th, 'response');
         }
@@ -87,10 +87,9 @@ class UserController extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
-                'id' => 'required',
-                'name' => 'required|string|max:255',
-                'email' => 'required|string|email|max:255',
-                'role' => 'required|in:admin,guru',
+                'kdkls' => 'required|string|max:255',
+                'jmlbangku' => 'required|integer',
+                'idguru' => 'required',
             ]);
 
             if ($validator->fails()) {
@@ -98,12 +97,12 @@ class UserController extends Controller
             }
 
             $store = $this->table->find($request->id);
-            $store->name = $request->name;
-            $store->email = $request->email;
-            $store->role = $request->role;
+            $store->kdkls = $request->kdkls;
+            $store->jmlbangku = $request->jmlbangku;
+            $store->idguru = $request->idguru;
             $store->save();
 
-            return FormatResponse::send(true, ['record' => $store, 'act' => 'update'], "Ubah data pengguna berhasil!", 200);
+            return FormatResponse::send(true, null, "Ubah data berhasil!", 200);
         } catch (\Throwable $th) {
             return ErrorHandler::record($th, 'response');
         }
@@ -115,7 +114,7 @@ class UserController extends Controller
             $destroy = $this->table->findOrFail($request->id);
             $destroy->delete();
 
-            return FormatResponse::send(true, $destroy, "Hapus data pengguna berhasil!", 200);
+            return FormatResponse::send(true, $destroy, "Hapus data berhasil!", 200);
         } catch (\Throwable $th) {
             return ErrorHandler::record($th, 'response');
         }
