@@ -13,9 +13,11 @@ class PDFController extends Controller
         $filter = $request->query('filter');
         $value = $request->query('value');
         if($filter === 'kelas') {
-            $dataJadwal = JadwalUjianModel::where('idkelas', $value)->get();
+            $dataJadwal = JadwalUjianModel::where('idkelas', $value)->orderBy('hari_ujian', 'asc')->get();
+        } elseif ($filter === 'guru') {
+            $dataJadwal = JadwalUjianModel::where('idguru', $value)->orderBy('hari_ujian', 'asc')->get();
         } else {
-            $dataJadwal = JadwalUjianModel::where('idguru', $value)->get();
+            $dataJadwal = JadwalUjianModel::orderBy('hari_ujian', 'asc')->get();
         }
         $pdf = Pdf::loadView('jadwalprint', compact('dataJadwal'));
 

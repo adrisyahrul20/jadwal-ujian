@@ -21,12 +21,12 @@
                                     Semua</a>
                             @endif
                         </div>
-                        @if ($semua)
-                            <a href="{{ route('export.pdf') }}?filter={{ $objFilter->filter }}&value={{ $objFilter->value }}"
-                                class="btn bg-green-500 text-white px-4 py-2 rounded-lg">
-                                Export PDF
-                            </a>
-                        @endif
+                        <a href="{{ route('export.pdf') }}{{ $objFilter?->filter ? '?filter=' . $objFilter->filter : '' }}{{ $objFilter?->value ? '&value=' . $objFilter->value : '' }}"
+                            class="btn bg-green-500 text-white px-4 py-2 rounded-lg">
+                            Export PDF
+                        </a>
+
+
                     </div>
                     <div class="relative overflow-x-auto mt-4">
                         <table class="w-full text-sm text-center rtl:text-right text-gray-500 dark:text-gray-400">

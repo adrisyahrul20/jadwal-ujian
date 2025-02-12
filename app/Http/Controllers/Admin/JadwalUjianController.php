@@ -32,9 +32,9 @@ class JadwalUjianController extends Controller
 
     public function index()
     {
-        $dataMapel = $this->mapel->select('id','nmmapel')->get();
-        $dataKelas = $this->kelas->select('id','kdkls')->get();
-        $dataGuru = $this->guru->select('id','nama')->get();
+        $dataMapel = $this->mapel->select('id', 'nmmapel')->get();
+        $dataKelas = $this->kelas->select('id', 'kdkls')->get();
+        $dataGuru = $this->guru->select('id', 'nama')->get();
         return view('administrator.jadwalujian.index')->with([
             'dataMapel' => $dataMapel,
             'dataKelas' => $dataKelas,
@@ -98,6 +98,25 @@ class JadwalUjianController extends Controller
                 throw new ValidationException($validator);
             }
 
+            // Cek apakah ada jadwal yang bertabrakan
+            $jadwalBertabrakan = $this->table
+                ->where('idguru', $request->idguru)
+                ->where('hari_ujian', $request->hari_ujian)
+                ->where(function ($query) use ($request) {
+                    $query->whereBetween('waktu_mulai', [$request->waktu_mulai, $request->waktu_selesai])
+                        ->orWhereBetween('waktu_selesai', [$request->waktu_mulai, $request->waktu_selesai])
+                        ->orWhere(function ($q) use ($request) {
+                            $q->where('waktu_mulai', '<=', $request->waktu_mulai)
+                                ->where('waktu_selesai', '>=', $request->waktu_selesai);
+                        });
+                })
+                ->exists();
+
+            if ($jadwalBertabrakan) {
+                return FormatResponse::send(false, null, "Gagal! Jadwal ujian untuk guru ini bertabrakan.", 400);
+            }
+
+            // Simpan data baru
             $store = new $this->table;
             $store->idmtpelajaran = $request->idmtpelajaran;
             $store->hari_ujian = $request->hari_ujian;
@@ -112,6 +131,7 @@ class JadwalUjianController extends Controller
             return ErrorHandler::record($th, 'response');
         }
     }
+
 
     public function update(Request $request)
     {
