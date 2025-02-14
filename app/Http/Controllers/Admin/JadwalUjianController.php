@@ -120,7 +120,7 @@ class JadwalUjianController extends Controller
                 return FormatResponse::send(false, null, "Gagal! Jadwal ujian untuk guru ini bertabrakan.", 400);
             }
             if ($mapelBertabrakan->hari_ujian !== $request->hari_ujian) {
-                return FormatResponse::send(false, null, "Gagal! Jadwal ujian untuk mata pelajaran ini sudah didaftarkan pada tgl". Carbon::parse($mapelBertabrakan->hari_ujian)->translatedFormat('d F Y'), 400);
+                return FormatResponse::send(false, null, "Gagal! Jadwal ujian untuk mata pelajaran ini sudah didaftarkan pada tgl ". Carbon::parse($mapelBertabrakan->hari_ujian)->translatedFormat('d F Y'), 400);
             }
 
             // Simpan data baru
