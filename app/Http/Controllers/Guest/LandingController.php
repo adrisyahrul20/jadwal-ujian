@@ -63,7 +63,7 @@ class LandingController extends Controller
         $objFilter = new stdClass;
         $objFilter->filter = 'kelas';
         $objFilter->value = $request->query('kelas');
-        $kelasnow = $this->kelas->find($request->query('kelas'))->kdkls;
+        $kelasnow = $request->query('kelas');
 
         $semua = true;
         return view('guestkelas')->with([
