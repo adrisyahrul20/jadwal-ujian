@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\JadwalUjianModel;
 use App\Models\KelasModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use stdClass;
 
 class DashboardController extends Controller
@@ -21,6 +22,10 @@ class DashboardController extends Controller
 
     public function index()
     {
+        if(Auth::user()->role === 'siswa') {
+            return redirect()->route('admin.dashboard.kelas', ['kelas' => Auth::user()->idkelas])->with(['error' => 'Kamu tidak ada hak untuk akses halaman ini!']);
+        }
+        
         $semua = false;
         $objFilter = null;
 
@@ -71,7 +76,7 @@ class DashboardController extends Controller
 
     public function guru(Request $request)
     {
-        $kelasnow = "Semua";
+        $kelasnow = "Guru";
         $data = $this->table->where('idguru', $request->query('guru'))->orderBy('idmtpelajaran', 'asc')->get();
         $kelas = $this->kelas->orderBy('kdkls', 'asc')->get();
         $objFilter = new stdClass;

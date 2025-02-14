@@ -21,14 +21,30 @@ class LandingController extends Controller
 
     public function index()
     {
-        $data = $this->table->get();
-        $kelas = $this->kelas->orderBy('kdkls', 'asc')->get();
-        $objFilter = null;
         $semua = false;
+        $objFilter = null;
+
+        $idkelasList = $this->table->distinct()->pluck('idkelas');
+
+        $selectRaw = "hari_ujian, idmtpelajaran, waktu_mulai, waktu_selesai";
+
+        foreach ($idkelasList as $idkelas) {
+            $selectRaw .= ", MAX(CASE WHEN idkelas = $idkelas THEN idguru END) as kelas_$idkelas";
+        }
+
+        $jadwal = $this->table
+            ->selectRaw($selectRaw)
+            ->groupBy(['hari_ujian', 'idmtpelajaran', 'waktu_mulai', 'waktu_selesai'])
+            ->orderBy('idmtpelajaran', 'asc')
+            ->get();
+
+        $kelas = $this->kelas->orderBy('id', 'asc')->get();
+        $kelasnow = 'Semua';
         return view('guest')->with([
-            'data' => $data,
+            'jadwal' => $jadwal,
             'kelas' => $kelas,
             'semua' => $semua,
+            'kelasnow' => $kelasnow,
             'objFilter' => $objFilter,
         ]);
     }
@@ -41,12 +57,14 @@ class LandingController extends Controller
         $objFilter = new stdClass;
         $objFilter->filter = 'kelas';
         $objFilter->value = $request->query('kelas');
+        $kelasnow = $this->kelas->find($request->query('kelas'))->kdkls;
 
         $semua = true;
-        return view('guest')->with([
+        return view('guestkelas')->with([
             'data' => $data,
             'kelas' => $kelas,
             'semua' => $semua,
+            'kelasnow' => $kelasnow,
             'objFilter' => $objFilter,
         ]);
     }
@@ -59,12 +77,14 @@ class LandingController extends Controller
         $objFilter = new stdClass;
         $objFilter->filter = 'guru';
         $objFilter->value = $request->query('guru');
+        $kelasnow = "Guru";
 
         $semua = true;
-        return view('guest')->with([
+        return view('guestkelas')->with([
             'data' => $data,
             'kelas' => $kelas,
             'semua' => $semua,
+            'kelasnow' => $kelasnow,
             'objFilter' => $objFilter,
         ]);
     }

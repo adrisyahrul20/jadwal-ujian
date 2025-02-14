@@ -18,7 +18,7 @@
     @else
         <script src="https://cdn.tailwindcss.com"></script>
     @endif
-    
+
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css" rel="stylesheet"
         type="text/css" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
@@ -32,7 +32,14 @@
 <body class="font-sans antialiased">
     <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
         @include('layouts.navigation')
-
+        @if (session('error'))
+            <x-common.alert type="danger">
+                <x-slot:title>
+                    Error!
+                </x-slot>
+                {{ session('error') }}
+            </x-common.alert>
+        @endif
         <!-- Page Content -->
         <main>
             {{ $slot }}
