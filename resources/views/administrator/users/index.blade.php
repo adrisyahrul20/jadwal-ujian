@@ -3,8 +3,8 @@
         <div class="flex flex-col md:flex-row text-center justify-between gap-4">
             <h1 class="text-xl md:text-2xl font-semibold">Data Pengguna</h1>
             <div class="flex gap-4">
-                <button class="btn btn-success bg-blue-500 text-white rounded-lg px-4 py-2 mb-4"
-                    id="addNewDataButton1">Registrasi Siswa</button>
+                {{-- <button class="btn btn-success bg-blue-500 text-white rounded-lg px-4 py-2 mb-4"
+                    id="addNewDataButton1">Registrasi Siswa</button> --}}
                 <button class="btn btn-success bg-green-500 text-white rounded-lg px-4 py-2 mb-4"
                     id="addNewDataButton">Registrasi Pengguna</button>
             </div>
@@ -19,8 +19,8 @@
                     </th>
                     <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Role
                     </th>
-                    <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Kelas
-                    </th>
+                    {{-- <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Kelas
+                    </th> --}}
                     <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Action
                     </th>
                 </tr>
@@ -145,10 +145,10 @@
                         data: 'roleCast',
                         name: 'roleCast'
                     },
-                    {
-                        data: 'kelasCast',
-                        name: 'kelasCast'
-                    },
+                    // {
+                    //     data: 'kelasCast',
+                    //     name: 'kelasCast'
+                    // },
                     {
                         data: 'action',
                         name: 'action',
