@@ -45,7 +45,7 @@ class JadwalUjianController extends Controller
     public function datatable()
     {
         Carbon::setLocale('id');
-        return DataTables::of($this->table->orderBy('created_at', 'desc')->select([
+        return DataTables::of($this->table->orderBy('id', 'desc')->select([
             'id',
             'idmtpelajaran',
             'hari_ujian',

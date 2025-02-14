@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Helper\ErrorHandler;
 use App\Helper\FormatResponse;
 use App\Http\Controllers\Controller;
+use App\Models\KelasModel;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -14,15 +15,20 @@ use Yajra\DataTables\DataTables;
 class UserController extends Controller
 {
     protected $table;
+    protected $kelas;
 
-    public function __construct(User $table)
+    public function __construct(User $table, KelasModel $kelas)
     {
         $this->table = $table;
+        $this->kelas = $kelas;
     }
 
     public function index()
     {
-        return view('administrator.users.index');
+        $dataKelas = $this->kelas->get();
+        return view('administrator.users.index')->with([
+            "dataKelas" => $dataKelas
+        ]);
     }
 
     public function datatable()
@@ -32,6 +38,7 @@ class UserController extends Controller
             'name',
             'email',
             'role',
+            'idkelas',
         ]))
             ->addIndexColumn()
             ->addColumn('roleCast', function ($row) {
@@ -42,6 +49,9 @@ class UserController extends Controller
                     'kepsek' => 'Kepala Sekolah',
                 ];
                 return $roles[$row->role] ?? 'Error';
+            })
+            ->addColumn('kelasCast', function ($row) {
+                return $row->idKelas->kdkls ?? '-';
             })
             ->addColumn('action', function ($row) {
                 return '
@@ -85,6 +95,34 @@ class UserController extends Controller
         }
     }
 
+    public function storeSiswa(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'name' => 'required|string|max:255',
+                'email' => 'required|string|email|max:255|unique:users,email',
+                'idkelas' => 'required',
+                'password' => 'required',
+            ]);
+
+            if ($validator->fails()) {
+                throw new ValidationException($validator);
+            }
+
+            $store = new $this->table;
+            $store->name = $request->name;
+            $store->email = $request->email;
+            $store->password = bcrypt($request->password);
+            $store->role = 'siswa';
+            $store->idkelas = $request->idkelas;
+            $store->save();
+
+            return FormatResponse::send(true, ['record' => $store, 'act' => 'store'], "Registrasi berhasil!", 200);
+        } catch (\Throwable $th) {
+            return ErrorHandler::record($th, 'response');
+        }
+    }
+
     public function update(Request $request)
     {
         try {
@@ -103,6 +141,33 @@ class UserController extends Controller
             $store->name = $request->name;
             $store->email = $request->email;
             $store->role = $request->role;
+            $store->save();
+
+            return FormatResponse::send(true, ['record' => $store, 'act' => 'update'], "Ubah data pengguna berhasil!", 200);
+        } catch (\Throwable $th) {
+            return ErrorHandler::record($th, 'response');
+        }
+    }
+
+    public function updateSiswa(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'id' => 'required',
+                'name' => 'required|string|max:255',
+                'email' => 'required|string|email|max:255',
+                'idkelas' => 'required',
+            ]);
+
+            if ($validator->fails()) {
+                throw new ValidationException($validator);
+            }
+
+            $store = $this->table->find($request->id);
+            $store->name = $request->name;
+            $store->email = $request->email;
+            $store->role = 'siswa';
+            $store->idkelas = $request->idkelas;
             $store->save();
 
             return FormatResponse::send(true, ['record' => $store, 'act' => 'update'], "Ubah data pengguna berhasil!", 200);

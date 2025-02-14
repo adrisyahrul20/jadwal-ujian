@@ -23,47 +23,68 @@ class DashboardController extends Controller
     {
         $semua = false;
         $objFilter = null;
-        $data = $this->table->get();
-        $kelas = $this->kelas->orderBy('kdkls', 'asc')->get();
+
+        $idkelasList = $this->table->distinct()->pluck('idkelas');
+
+        $selectRaw = "hari_ujian, idmtpelajaran, waktu_mulai, waktu_selesai";
+
+        foreach ($idkelasList as $idkelas) {
+            $selectRaw .= ", MAX(CASE WHEN idkelas = $idkelas THEN idguru END) as kelas_$idkelas";
+        }
+
+        $jadwal = $this->table
+            ->selectRaw($selectRaw)
+            ->groupBy(['hari_ujian', 'idmtpelajaran', 'waktu_mulai', 'waktu_selesai'])
+            ->orderBy('idmtpelajaran', 'asc')
+            ->get();
+
+        $kelas = $this->kelas->orderBy('id', 'asc')->get();
+        $kelasnow = 'Semua';
+
         return view('administrator.dashboard.index')->with([
-            'data' => $data,
             'kelas' => $kelas,
             'objFilter' => $objFilter,
             'semua' => $semua,
+            'kelasnow' => $kelasnow,
+            'jadwal' => $jadwal,
         ]);
     }
 
+
     public function kelas(Request $request)
     {
-        $data = $this->table->where('idkelas', $request->query('kelas'))->get();
+        $data = $this->table->where('idkelas', $request->query('kelas'))->orderBy('idmtpelajaran', 'asc')->get();
         $kelas = $this->kelas->orderBy('kdkls', 'asc')->get();
         $objFilter = new stdClass;
         $objFilter->filter = 'kelas';
         $objFilter->value = $request->query('kelas');
-
+        $kelasnow = $this->kelas->find($request->query('kelas'))->kdkls;
         $semua = true;
-        return view('administrator.dashboard.index')->with([
+        return view('administrator.dashboard.kelas')->with([
             'data' => $data,
             'kelas' => $kelas,
             'objFilter' => $objFilter,
             'semua' => $semua,
+            'kelasnow' => $kelasnow,
         ]);
     }
 
     public function guru(Request $request)
     {
-        $data = $this->table->where('idguru', $request->query('guru'))->get();
+        $kelasnow = "Semua";
+        $data = $this->table->where('idguru', $request->query('guru'))->orderBy('idmtpelajaran', 'asc')->get();
         $kelas = $this->kelas->orderBy('kdkls', 'asc')->get();
         $objFilter = new stdClass;
         $objFilter->filter = 'guru';
         $objFilter->value = $request->query('guru');
 
         $semua = true;
-        return view('administrator.dashboard.index')->with([
+        return view('administrator.dashboard.kelas')->with([
             'data' => $data,
             'kelas' => $kelas,
             'objFilter' => $objFilter,
             'semua' => $semua,
+            'kelasnow' => $kelasnow,
         ]);
     }
 }

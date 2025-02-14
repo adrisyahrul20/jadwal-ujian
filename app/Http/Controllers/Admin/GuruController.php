@@ -37,17 +37,8 @@ class GuruController extends Controller
             'alamat',
             'nohp',
             'email',
-            'foto',
         ]))
             ->addIndexColumn()
-            ->addColumn('fotoCast', function ($row) {
-                if ($row->foto) {
-                    $foto = '<img src="' . asset('storage/' . $row->foto) . '" class="w-16" alt="TE Logo" loading="lazy" />';
-                } else {
-                    $foto = '<img src="' . asset("assets/img/user.png") . '" class="w-16" alt="TE Logo" loading="lazy" />';
-                }
-                return $foto ?? 'Error';
-            })
             ->addColumn('jkCast', function ($row) {
                 return $row->jk === 'lk' ? 'Laki-laki' : 'Perempuan';
             })
@@ -77,7 +68,6 @@ class GuruController extends Controller
                 'jenkel' => 'required|in:lk,pr',
                 'notelp' => 'required|string|max:14',
                 'email' => 'required|string|email|max:255',
-                'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
             ]);
 
             if ($validator->fails()) {
@@ -93,14 +83,6 @@ class GuruController extends Controller
             $store->nohp = $request->notelp;
             $store->email = $request->email;
             $store->alamat = $request->alamat;
-            if ($request->hasFile('foto')) {
-                $file = $request->file('foto');
-                $filename = time() . '_' . $file->getClientOriginalName();
-                $filePath = $file->move('public/uploads', $filename);
-
-                $store->foto = str_replace('public/', '', $filePath);
-            }
-
             $store->save();
 
             return FormatResponse::send(true, null, "Tambah data berhasil!", 200);
@@ -120,7 +102,6 @@ class GuruController extends Controller
                 'jenkel' => 'required|in:lk,pr',
                 'notelp' => 'required|string|max:14',
                 'email' => 'required|string|email|max:255',
-                'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
             ]);
 
             if ($validator->fails()) {
@@ -136,13 +117,6 @@ class GuruController extends Controller
             $store->nohp = $request->notelp;
             $store->email = $request->email;
             $store->alamat = $request->alamat;
-            if ($request->hasFile('foto')) {
-                $file = $request->file('foto');
-                $filename = time() . '_' . $file->getClientOriginalName();
-                $filePath = $file->move('public/uploads', $filename);
-
-                $store->foto = str_replace('public/', '', $filePath);
-            }
             $store->save();
 
             return FormatResponse::send(true, null, "Ubah data berhasil!", 200);

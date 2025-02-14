@@ -66,6 +66,8 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
         Route::get('/data-table', 'datatable')->name('datatable');
         Route::post('/store', 'store')->name('store');
         Route::put('/update', 'update')->name('update');
+        Route::post('/store/siswa', 'storeSiswa')->name('store.siswa');
+        Route::put('/update/siswa', 'updateSiswa')->name('update.siswa');
         Route::delete('/delete', 'destroy')->name('destroy');
     });
 });

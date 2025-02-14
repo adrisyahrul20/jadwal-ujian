@@ -19,6 +19,5 @@ class GuruModel extends Model
         'alamat',
         'nohp',
         'email',
-        'foto',
     ];
 }

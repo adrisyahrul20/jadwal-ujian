@@ -21,7 +21,6 @@ return new class extends Migration
             $table->longText('alamat')->nullable();
             $table->string('nohp');
             $table->string('email');
-            $table->string('foto')->nullable();
             $table->timestamps();
         });
     }

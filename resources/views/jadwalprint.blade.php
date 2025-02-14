@@ -39,11 +39,9 @@
     <table>
         <thead>
             <tr>
+                <th>Hari / Tgl</th>
                 <th>Mata Pelajaran</th>
-                <th>Hari Ujian</th>
-                <th>Tanggal Ujian</th>
-                <th>Jam Mulai</th>
-                <th>Jam Selesai</th>
+                <th>Waktu</th>
                 <th>Kelas</th>
                 <th>Pengawas</th>
             </tr>
@@ -51,11 +49,9 @@
         <tbody>
             @foreach ($dataJadwal as $list)
                 <tr>
+                    <td>{{ Carbon::parse($list->hari_ujian)->translatedFormat('l') }} / {{ Carbon::parse($list->hari_ujian)->translatedFormat('d F Y') }}</td>
                     <td>{{ $list->idMapel->nmmapel }}</td>
-                    <td>{{ Carbon::parse($list->hari_ujian)->translatedFormat('l') }}</td>
-                    <td>{{ Carbon::parse($list->hari_ujian)->translatedFormat('d F Y') }}</td>
-                    <td>{{ $list->waktu_mulai }}</td>
-                    <td>{{ $list->waktu_selesai }}</td>
+                    <td>{{ $list->waktu_mulai }} - {{ $list->waktu_selesai }}</td>
                     <td>{{ $list->idKelas->kdkls }}</td>
                     <td>{{ $list->idGuru->nama }}</td>
                 </tr>

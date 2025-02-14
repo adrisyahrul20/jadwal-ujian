@@ -65,7 +65,6 @@ class MapelController extends Controller
             $validator = Validator::make($request->all(), [
                 'kdmapel' => 'required|string|max:255|unique:mata_pelajaran,kdmapel',
                 'nmmapel' => 'required|string',
-                'keterangan' => 'required|string',
                 'idguru' => 'required',
             ]);
 
@@ -92,7 +91,6 @@ class MapelController extends Controller
             $validator = Validator::make($request->all(), [
                 'kdmapel' => 'required|string|max:255',
                 'nmmapel' => 'required|string',
-                'keterangan' => 'required|string',
                 'idguru' => 'required',
             ]);
 

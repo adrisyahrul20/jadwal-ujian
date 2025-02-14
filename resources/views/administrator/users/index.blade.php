@@ -2,8 +2,12 @@
     <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 dark:text-white">
         <div class="flex flex-col md:flex-row text-center justify-between gap-4">
             <h1 class="text-xl md:text-2xl font-semibold">Data Pengguna</h1>
-            <button class="btn btn-success bg-green-500 text-white rounded-lg px-4 py-2 mb-4"
-                id="addNewDataButton">Registrasi Pengguna</button>
+            <div class="flex gap-4">
+                <button class="btn btn-success bg-blue-500 text-white rounded-lg px-4 py-2 mb-4"
+                    id="addNewDataButton1">Registrasi Siswa</button>
+                <button class="btn btn-success bg-green-500 text-white rounded-lg px-4 py-2 mb-4"
+                    id="addNewDataButton">Registrasi Pengguna</button>
+            </div>
         </div>
         <table class="min-w-full bg-white divide-y divide-gray-200 border" id="dataTables">
             <thead class="bg-gray-50">
@@ -14,6 +18,8 @@
                     <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Email
                     </th>
                     <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Role
+                    </th>
+                    <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Kelas
                     </th>
                     <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Action
                     </th>
@@ -53,7 +59,6 @@
                         <option value="">Pilih Jabatan</option>
                         <option value="admin">Administrator</option>
                         <option value="guru">Guru</option>
-                        <option value="siswa">Siswa</option>
                         <option value="kepsek">Kepala Sekolah</option>
                     </select>
                 </div>
@@ -63,6 +68,52 @@
                     <button type="button" id="close-modal"
                         class="bg-gray-500 text-white rounded-lg px-4 py-2 mr-2">Batal</button>
                     <button type="button" id="save"
+                        class="bg-blue-500 text-white rounded-lg px-4 py-2">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="dataModal1" class="fixed inset-0 flex items-center justify-center z-[1100] hidden bg-black bg-opacity-50">
+        <!-- Modal Content -->
+        <div class="bg-white rounded-lg shadow-lg w-full max-w-md mx-auto p-6">
+            <h2 id="modalTitle1" class="text-2xl font-semibold mb-4"></h2>
+            <!-- Form Inputs -->
+            <form id="dataForm1" autocomplete="off">
+                <input type="hidden" id="recordId1" name="id">
+                <input type="hidden" id="method1" name="method">
+
+                <div class="flex flex-col w-full mb-2">
+                    <label for="name" class="block text-gray-700">Nama</label>
+                    <input type="text" id="name1" name="name" class="border shadow-sm rounded-md py-2 px-3">
+                </div>
+
+                <div class="flex flex-col w-full mb-2">
+                    <label for="email" class="block text-gray-700">Email</label>
+                    <input type="email" id="email1" name="email" class="border shadow-sm rounded-md py-2 px-3">
+                </div>
+
+                <div id="pass1" class="flex flex-col w-full mb-2">
+                    <label for="phone_number" class="block text-gray-700">Password</label>
+                    <input type="password" id="password1" maxlength="15" name="password"
+                        class="border shadow-sm rounded-md py-2 px-3">
+                </div>
+
+                <div class="flex flex-col w-full mb-4">
+                    <label for="idkelas" class="block text-gray-700">Kelas</label>
+                    <select id="idkelas" name="idkelas" class="border shadow-sm rounded-md py-2 px-3">
+                        <option value="">Pilih Kelas</option>
+                        @foreach ($dataKelas as $data)
+                            <option value="{{ $data->id }}">{{ $data->kdkls }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <!-- Modal Buttons -->
+                <div class="flex justify-end">
+                    <button type="button" id="close-modal1"
+                        class="bg-gray-500 text-white rounded-lg px-4 py-2 mr-2">Batal</button>
+                    <button type="button" id="save1"
                         class="bg-blue-500 text-white rounded-lg px-4 py-2">Simpan</button>
                 </div>
             </form>
@@ -93,6 +144,10 @@
                     {
                         data: 'roleCast',
                         name: 'roleCast'
+                    },
+                    {
+                        data: 'kelasCast',
+                        name: 'kelasCast'
                     },
                     {
                         data: 'action',
@@ -144,8 +199,20 @@
                 $('#pass').removeClass('hidden');
             });
 
+            $('#addNewDataButton1').click(function() {
+                $('#modalTitle1').text('Registrasi Siswa');
+                $('#dataModal1').removeClass('hidden');
+                $("#method1").val('POST');
+                $('#dataForm1')[0].reset();
+                $('#pass1').removeClass('hidden');
+            });
+
             $('#close-modal').click(function() {
                 $('#dataModal').addClass('hidden');
+            });
+
+            $('#close-modal1').click(function() {
+                $('#dataModal1').addClass('hidden');
             });
 
             $.ajaxSetup({
@@ -183,18 +250,54 @@
                 });
             });
 
+            $('#save1').click(function(e) {
+                e.preventDefault();
+                $(this).prop('disabled', true).html(
+                    '<span class="mr-2">Simpan</span><i class="fa fa-spinner fa-pulse fa-fw"></i>');
+
+                const method = $("#method1").val() === 'PUT' ? 'PUT' :
+                    'POST';
+                const url = method === "POST" ? "{{ route('admin.user.store.siswa') }}" :
+                    "{{ route('admin.user.update.siswa') }}";
+
+                $.ajax({
+                    url: url,
+                    type: method,
+                    data: $("#dataForm1").serialize(),
+                    success: function(res) {
+                        success(res.message);
+                        $('#dataTables').DataTable().ajax.reload();
+                        $('#dataForm1')[0].reset();
+                        $('#dataModal1').addClass('hidden');
+                    },
+                    error: function(err) {
+                        handleError(err);
+                    },
+                    complete: function() {
+                        $('#save1').prop('disabled', false).text('Simpan');
+                    }
+                });
+            });
+
             $('table#dataTables tbody').on('click', 'td button', function(e) {
                 const action = $(this).attr("data-mode");
                 const data = $('#dataTables').DataTable().row($(this).parents('tr')).data();
+
+
                 $('#modalTitle').text('Ubah Data Pengguna');
 
                 if (action === 'edit') {
                     populateForm(data);
-                    $("#method").val('PUT');
-                    $('#pass').addClass('hidden');
-                    $('#dataModal').removeClass('hidden');
+                    if (data.role === "siswa") {
+                        $("#method1").val('PUT');
+                        $('#pass1').addClass('hidden');
+                        $('#dataModal1').removeClass('hidden');
+                    } else {
+                        $("#method").val('PUT');
+                        $('#pass').addClass('hidden');
+                        $('#dataModal').removeClass('hidden');
+                    }
                 } else {
-                    $('#pass').removeClass('hidden');
                     confirmDelete(data.id);
                 }
             });
@@ -204,6 +307,11 @@
                 $("#name").val(data.name);
                 $("#email").val(data.email);
                 $("#role").val(data.role);
+
+                $("#recordId1").val(data.id);
+                $("#name1").val(data.name);
+                $("#email1").val(data.email);
+                $("#idkelas").val(data.idkelas);
             }
 
             function confirmDelete(id) {
