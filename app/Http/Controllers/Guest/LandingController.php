@@ -51,7 +51,13 @@ class LandingController extends Controller
 
     public function kelas(Request $request)
     {
-        $data = $this->table->where('idkelas', $request->query('kelas'))->get();
+        $kelasnow = $this->kelas->where('kdkls', $request->query('kelas'))->first();
+
+        if (!$kelasnow) {
+            return redirect()->route('home-page')->with(['error' => 'Kelas tidak ditemukan']);
+        }
+
+        $data = $this->table->where('idkelas', $kelasnow->id)->get();
         $kelas = $this->kelas->orderBy('kdkls', 'asc')->get();
 
         $objFilter = new stdClass;

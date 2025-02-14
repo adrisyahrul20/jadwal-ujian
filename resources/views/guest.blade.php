@@ -57,7 +57,7 @@
                             Semua
                         </x-dropdown-link>
                         @foreach ($kelas as $list)
-                            <x-dropdown-link :href="route('filter-kelas') . '?kelas=' . $list->id">
+                            <x-dropdown-link :href="route('filter-kelas') . '?kelas=' . $list->kdkls">
                                 {{ $list->kdkls }}
                             </x-dropdown-link>
                         @endforeach
