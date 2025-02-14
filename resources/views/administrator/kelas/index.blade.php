@@ -9,14 +9,9 @@
             <thead class="bg-gray-50">
                 <tr>
                     <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">No</th>
-                    <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Kode
-                        Kelas
+                    <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Ruangan Kelas
                     </th>
-                    <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Jumlah
-                        Bangku
-                    </th>
-                    <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Guru
-                        Wali Kelas</th>
+                    <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Guru</th>
                     <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Action
                     </th>
                 </tr>
@@ -80,10 +75,6 @@
                     {
                         data: 'kdkls',
                         name: 'kdkls'
-                    },
-                    {
-                        data: 'jmlbangku',
-                        name: 'jmlbangku'
                     },
                     {
                         data: 'namaGuru',
