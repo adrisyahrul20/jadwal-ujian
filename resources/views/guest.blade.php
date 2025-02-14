@@ -57,7 +57,7 @@
                             Semua
                         </x-dropdown-link>
                         @foreach ($kelas as $list)
-                            <x-dropdown-link :href="route('admin.dashboard.kelas') . '?kelas=' . $list->id">
+                            <x-dropdown-link :href="route('filter-kelas') . '?kelas=' . $list->id">
                                 {{ $list->kdkls }}
                             </x-dropdown-link>
                         @endforeach
@@ -158,75 +158,75 @@
                                 <span class="text-nowrap">{{ $list->waktu_mulai }} - {{ $list->waktu_selesai }}</span>
                             </td>
                             <td class="px-6 py-4">
-                                <a href="{{ route('admin.dashboard.guru') }}?guru={{ $list->kelas_12 }}"
+                                <a href="{{ route('filter-guru') }}?guru={{ $list->kelas_12 }}"
                                     class="dark:text-white underline">{{ $list->kelas_12 }}</a>
                             </td>
                             <td class="px-6 py-4">
-                                <a href="{{ route('admin.dashboard.guru') }}?guru={{ $list->kelas_13 }}"
+                                <a href="{{ route('filter-guru') }}?guru={{ $list->kelas_13 }}"
                                     class="dark:text-white underline">{{ $list->kelas_13 }}</a>
                             </td>
                             <td class="px-6 py-4">
-                                <a href="{{ route('admin.dashboard.guru') }}?guru={{ $list->kelas_14 }}"
+                                <a href="{{ route('filter-guru') }}?guru={{ $list->kelas_14 }}"
                                     class="dark:text-white underline">{{ $list->kelas_14 }}</a>
                             </td>
                             <td class="px-6 py-4">
-                                <a href="{{ route('admin.dashboard.guru') }}?guru={{ $list->kelas_15 }}"
+                                <a href="{{ route('filter-guru') }}?guru={{ $list->kelas_15 }}"
                                     class="dark:text-white underline">{{ $list->kelas_15 }}</a>
                             </td>
                             <td class="px-6 py-4">
-                                <a href="{{ route('admin.dashboard.guru') }}?guru={{ $list->kelas_16 }}"
+                                <a href="{{ route('filter-guru') }}?guru={{ $list->kelas_16 }}"
                                     class="dark:text-white underline">{{ $list->kelas_16 }}</a>
                             </td>
                             <td class="px-6 py-4">
-                                <a href="{{ route('admin.dashboard.guru') }}?guru={{ $list->kelas_7 }}"
+                                <a href="{{ route('filter-guru') }}?guru={{ $list->kelas_7 }}"
                                     class="dark:text-white underline">{{ $list->kelas_7 }}</a>
                             </td>
                             <td class="px-6 py-4">
-                                <a href="{{ route('admin.dashboard.guru') }}?guru={{ $list->kelas_8 }}"
+                                <a href="{{ route('filter-guru') }}?guru={{ $list->kelas_8 }}"
                                     class="dark:text-white underline">{{ $list->kelas_8 }}</a>
                             </td>
                             <td class="px-6 py-4">
-                                <a href="{{ route('admin.dashboard.guru') }}?guru={{ $list->kelas_9 }}"
+                                <a href="{{ route('filter-guru') }}?guru={{ $list->kelas_9 }}"
                                     class="dark:text-white underline">{{ $list->kelas_9 }}</a>
                             </td>
                             <td class="px-6 py-4">
-                                <a href="{{ route('admin.dashboard.guru') }}?guru={{ $list->kelas_10 }}"
+                                <a href="{{ route('filter-guru') }}?guru={{ $list->kelas_10 }}"
                                     class="dark:text-white underline">{{ $list->kelas_10 }}</a>
                             </td>
                             <td class="px-6 py-4">
-                                <a href="{{ route('admin.dashboard.guru') }}?guru={{ $list->kelas_11 }}"
+                                <a href="{{ route('filter-guru') }}?guru={{ $list->kelas_11 }}"
                                     class="dark:text-white underline">{{ $list->kelas_11 }}</a>
                             </td>
                             <td class="px-6 py-4">
-                                <a href="{{ route('admin.dashboard.guru') }}?guru={{ $list->kelas_1 }}"
+                                <a href="{{ route('filter-guru') }}?guru={{ $list->kelas_1 }}"
                                     class="dark:text-white underline">{{ $list->kelas_1 }}</a>
                             </td>
                             <td class="px-6 py-4">
-                                <a href="{{ route('admin.dashboard.guru') }}?guru={{ $list->kelas_2 }}"
+                                <a href="{{ route('filter-guru') }}?guru={{ $list->kelas_2 }}"
                                     class="dark:text-white underline">{{ $list->kelas_2 }}</a>
                             </td>
                             <td class="px-6 py-4">
-                                <a href="{{ route('admin.dashboard.guru') }}?guru={{ $list->kelas_3 }}"
+                                <a href="{{ route('filter-guru') }}?guru={{ $list->kelas_3 }}"
                                     class="dark:text-white underline">{{ $list->kelas_3 }}</a>
                             </td>
                             <td class="px-6 py-4">
-                                <a href="{{ route('admin.dashboard.guru') }}?guru={{ $list->kelas_4 }}"
+                                <a href="{{ route('filter-guru') }}?guru={{ $list->kelas_4 }}"
                                     class="dark:text-white underline">{{ $list->kelas_4 }}</a>
                             </td>
                             <td class="px-6 py-4">
-                                <a href="{{ route('admin.dashboard.guru') }}?guru={{ $list->kelas_5 }}"
+                                <a href="{{ route('filter-guru') }}?guru={{ $list->kelas_5 }}"
                                     class="dark:text-white underline">{{ $list->kelas_5 }}</a>
                             </td>
                             <td class="px-6 py-4">
-                                <a href="{{ route('admin.dashboard.guru') }}?guru={{ $list->kelas_6 }}"
+                                <a href="{{ route('filter-guru') }}?guru={{ $list->kelas_6 }}"
                                     class="dark:text-white underline">{{ $list->kelas_6 }}</a>
                             </td>
                             <td class="px-6 py-4">
-                                <a href="{{ route('admin.dashboard.guru') }}?guru={{ $list->kelas_17 }}"
+                                <a href="{{ route('filter-guru') }}?guru={{ $list->kelas_17 }}"
                                     class="dark:text-white underline">{{ $list->kelas_17 }}</a>
                             </td>
                             <td class="px-6 py-4">
-                                <a href="{{ route('admin.dashboard.guru') }}?guru={{ $list->kelas_18 }}"
+                                <a href="{{ route('filter-guru') }}?guru={{ $list->kelas_18 }}"
                                     class="dark:text-white underline">{{ $list->kelas_18 }}</a>
                             </td>
                         </tr>
