@@ -18,12 +18,12 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    @if (Auth::user()->role === 'siswa')
+                    @if (Auth::user()->role === 'siswa' && Auth::user()->role === 'guru')
                         <x-nav-link :href="route('admin.dashboard.kelas', ['kelas' => Auth::user()->idkelas])" :active="request()->routeIs('admin.dashboard.*')">
                             Dasbor
                         </x-nav-link>
                     @endif
-                    @if (Auth::user()->role !== 'siswa')
+                    @if (Auth::user()->role !== 'siswa' && Auth::user()->role !== 'guru')
                         <x-nav-link :href="route('admin.dashboard.index')" :active="request()->routeIs('admin.dashboard.*')">
                             Dasbor
                         </x-nav-link>
