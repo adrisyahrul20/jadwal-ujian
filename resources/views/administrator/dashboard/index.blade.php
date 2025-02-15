@@ -113,9 +113,6 @@
                                     <th scope="col" class="px-6 py-3">
                                         LAB
                                     </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        CAD
-                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -200,10 +197,6 @@
                                         <td class="px-6 py-4">
                                             <a href="{{ route('admin.dashboard.guru') }}?guru={{ $list->kelas_17 }}"
                                                 class="dark:text-white underline">{{ $list->kelas_17 }}</a>
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            <a href="{{ route('admin.dashboard.guru') }}?guru={{ $list->kelas_18 }}"
-                                                class="dark:text-white underline">{{ $list->kelas_18 }}</a>
                                         </td>
                                     </tr>
                                 @endforeach
