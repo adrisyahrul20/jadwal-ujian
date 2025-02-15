@@ -18,19 +18,9 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    @if (Auth::user()->role === 'siswa' || Auth::user()->role === 'guru')
-                        <x-nav-link :href="route('admin.dashboard.kelas', ['kelas' => Auth::user()->idkelas])" :active="request()->routeIs('admin.dashboard.*')">
-                            Dasbor
-                        </x-nav-link>
-                    @endif
-                    @if (Auth::user()->role !== 'siswa' && Auth::user()->role !== 'guru')
-                        <x-nav-link :href="route('admin.dashboard.index')" :active="request()->routeIs('admin.dashboard.*')">
-                            Dasbor
-                        </x-nav-link>
-                        <x-nav-link :href="route('admin.jadwal.index')" :active="request()->routeIs('admin.jadwal.index')">
-                            Jadwal Ujian
-                        </x-nav-link>
-                    @endif
+                    <x-nav-link :href="route('admin.dashboard.kelas', ['kelas' => Auth::user()->idkelas])" :active="request()->routeIs('admin.dashboard.*')">
+                        Dasbor
+                    </x-nav-link>
                     @if (Auth::user()->role === 'admin')
                         <x-nav-link :href="route('admin.mapel.index')" :active="request()->routeIs('admin.mapel.index')">
                             Mata Pelajaran
